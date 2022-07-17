@@ -51,7 +51,7 @@ const CARDS = {
     ],
     d7: [
         "Scrambler",
-        x=>`${['Your',"Enemy's"][x]} spawned Dice has 10% chance to transform into <b class='green'>Dice Scrambler</b>`,
+        x=>`${['Your',"Enemy's"][x]} spawned Dice has 15% chance to transform into <b class='green'>Dice Scrambler</b>`,
         x=>!data[x].cards.includes("d7"),
         x=>{},
     ],

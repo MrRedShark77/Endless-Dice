@@ -503,7 +503,7 @@ function spawnRandomDice(id,update=false) {
 
     grid[pos] = {pos: pos, value: randomInt(d.min_s,d.max_s), type: ["normal","attack","heal"][tp], energy: [1,2,2][tp]}
 
-    if (d.cards.includes('d7') && Math.random() < .1) { // 
+    if (d.cards.includes('d7') && Math.random() < .15) { // 
         grid[pos].type = "scrambler"
         grid[pos].energy = 2
     }
