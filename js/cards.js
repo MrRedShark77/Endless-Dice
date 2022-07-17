@@ -2,7 +2,7 @@ const CARDS = {
     d1: [
         "Side Increaser",
         x=>`Increase ${['your',"enemy's"][x]} maximum number of side by <b class='green'>1</b>`,
-        x=>data.round <= 10,
+        x=>data.round < 10,
         x=>{
             data[x].max_s += 1
         },
@@ -18,7 +18,7 @@ const CARDS = {
     d3: [
         "Minimum Side Increaser",
         x=>`Increase ${['your',"enemy's"][x]} minimum number of side by <b class='green'>1</b>`,
-        x=>data[x].min_s<data[x].max_s && data.round <= 10,
+        x=>data[x].min_s<data[x].max_s && data.round < 10,
         x=>{
             data[x].min_s += 1
         },
@@ -35,7 +35,7 @@ const CARDS = {
     d5: [
         "Side Re-Increaser",
         x=>`Increase ${['your',"enemy's"][x]} maximum number of side by <b class='green'>4</b>`,
-        x=> data.round > 10,
+        x=> data.round >= 10,
         x=>{
             data[x].max_s += 4
         },
@@ -59,7 +59,7 @@ const CARDS = {
     s1: [
         "Sacrifice for Multiplier",
         x=>`Sacrifice <b class='green'>80%</b> of your health for increasing the multiplier of product by <b class='green'>1</b>`,
-        x=>x=="player" && data.round <= 20,
+        x=>x=="player" && data.round < 20,
         x=>{
             data[x].health = Math.ceil(data[x].health*0.2)
             data[x].mult += 1
@@ -68,7 +68,7 @@ const CARDS = {
     s2: [
         "Sacrifice for Multiplier",
         x=>`Sacrifice <b class='green'>95%</b> of your health for increasing the multiplier of product by <b class='green'>3</b>`,
-        x=>x=="player" && data.round > 20,
+        x=>x=="player" && data.round >= 20,
         x=>{
             data[x].health = Math.ceil(data[x].health*0.05)
             data[x].mult += 3
@@ -97,6 +97,14 @@ const CARDS = {
         x=>!data[x].cards.includes("e3"),
         x=>{},
     ],
+    e4: [
+        "Energy Increaser",
+        x=>`Increase ${['your',"enemy's"][x]} maximum energy by <b class='green'>1</b>`,
+        x=>true,
+        x=>{
+            data[x].maxEnergy += 1
+        },
+    ],
     
     en1: [
         "Enemy's Oktoberfest",
@@ -109,7 +117,7 @@ const CARDS = {
     en2: [
         "Stronger Enemy",
         x=>`Increase enemy's multiplier by <b class='green'>1</b>`,
-        x=>x=="enemy" && data.round <= 10,
+        x=>x=="enemy" && data.round < 10,
         x=>{
             data.enemy.mult += 1
         },
@@ -117,7 +125,7 @@ const CARDS = {
     en3: [
         "Mega Enemy",
         x=>`Increase enemy's multiplier by <b class='green'>2</b>`,
-        x=>x=="enemy" && data.round > 10,
+        x=>x=="enemy" && data.round >= 10,
         x=>{
             data.enemy.mult += 2
         },
@@ -125,7 +133,7 @@ const CARDS = {
     en4: [
         "Catastrophic",
         x=>`Increase enemy's multiplier by <b class='green'>4</b>`,
-        x=>x=="enemy" && data.round > 20,
+        x=>x=="enemy" && data.round >= 20,
         x=>{
             data.enemy.mult += 4
         },
@@ -133,7 +141,7 @@ const CARDS = {
     en5: [
         "Giant Enemy",
         x=>`Increase enemy's starting health by <b class='green'>100%</b>`,
-        x=>x=="enemy" && data.round > 10,
+        x=>x=="enemy" && data.round >= 10,
         x=>{
             data.enemy.maxHealth = Math.floor(data.enemy.maxHealth*2)
         },
@@ -150,7 +158,7 @@ const CARDS = {
     m2: [
         "Multiplier Expansion",
         x=>`Increase ${['your',"enemy's"][x]} multiplier by <b class='green'>0.75</b>`,
-        x=>data.round > 10,
+        x=>data.round >= 10,
         x=>{
             data[x].mult += 0.75
         },
