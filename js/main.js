@@ -14,7 +14,7 @@ const newData = _=>{
             pickStep: 0,
             product: 1,
             energyCos: 0,
-            health: 100,
+            health: 50,
             energy: 10,
             maxEnergy: 10,
 
@@ -30,8 +30,8 @@ const newData = _=>{
             pick: [0,0],
             product: 1,
             energyCos: 0,
-            health: 100,
-            maxHealth: 100,
+            health: 50,
+            maxHealth: 50,
             energy: 0,
             maxEnergy: 10,
 
@@ -172,13 +172,20 @@ function makeMove(move="player") {
     var g = data[stringToString[move][0]]
     var od = data[stringToString[move][1]]
 
+    var dh = document.getElementById(move+"_health").getBoundingClientRect()
+    var oh = document.getElementById(stringToString[move][1]+"_health").getBoundingClientRect()
+
     if ((d.pickStep > 1 || move == "enemy") && d.energy >= d.energyCos) {
         d.energy -= d.energyCos
 
         if (d.cards.includes("e3") && Math.random() < .2) d.energy += 2
 
         var p = Math.floor(d.product*d.mult)
-        if (Math.random() < .15) p *= 2
+        var dmg = 0, heal = 0, crit = ""
+        if (Math.random() < .15) {
+            crit = "Critical! "
+            p *= 2
+        }
         var dices = [g[d.pick[0]],g[d.pick[1]]]
 
         g[d.pick[0]] = undefined
@@ -187,21 +194,43 @@ function makeMove(move="player") {
         for (x in dices) {
             var dice = dices[x]
 
-            if (dice.type == "attack") od.health = Math.max(od.health-p,0)
-            else if (dice.type == "heal") d.health += p
-            else if (d.cards.includes("o2") && dice.type == "normal") od.health = Math.max(od.health-Math.ceil(move=="player"?p/4:p/2),0)
+            if (dice.type == "attack") {
+                od.health = Math.max(od.health-p,0)
+                dmg += p
+            }
+            else if (dice.type == "heal") {
+                d.health += p
+                heal += p
+            }
+            else if (d.cards.includes("o2") && dice.type == "normal") {
+                od.health = Math.max(od.health-Math.ceil(move=="player"?p/4:p/2),0)
+                dmg += Math.ceil(move=="player"?p/4:p/2)
+            }
         }
 
         if (dices[0].type == dices[1].type) {
             var dice = dices[0]
-            if (dice.type == "attack") od.health = Math.max(od.health-p,0)
-            else if (dice.type == "heal") d.health += p
+            if (dice.type == "attack") {
+                od.health = Math.max(od.health-p,0)
+                dmg += p
+            }
+            else if (dice.type == "heal") {
+                d.health += p
+                heal += p
+            }
         }
         
         d.energyCos = 0
         d.pick = [0,0]
         d.pickStep = 0
         d.product = 1
+
+        if (dmg > 0) {
+            createTextPopupParticle(`<span class="red">${crit+"-"+format(dmg)}</span>`,oh.x+oh.width/2,oh.y)
+        }
+        if (heal > 0) {
+            createTextPopupParticle(`<span class="green">${crit+"+"+format(heal)}</span>`,dh.x+dh.width/2,oh.y)
+        }
 
         updateGridDices("p_grid")
         updateGridDices("e_grid")
@@ -371,7 +400,7 @@ function updateGridDices(id) {
     document.getElementById(dd+"_move").innerHTML = data.move == dd ? " (Move)" : ""
 
     if (dd == "player") {
-        document.getElementById("player_proccess").style.display = data.player.pickStep > 1 && data.player.energy >= data.player.energyCos ? "inline" : "none"
+        document.getElementById("player_proccess").style.display = data.player.pickStep > 1 ? "inline" : "none"
         document.getElementById("player_proccess").innerHTML = `Make a Move, ${data.player.energyCos} Energy Cost`
 
         document.getElementById("player_clear").style.display = data.player.pickStep > 0 ? "inline" : "none"
@@ -446,10 +475,19 @@ function format(x) {
     return x.toFixed(0)
 }
 
+function start() {
+    document.getElementById("main_menu").style.transform = "translateY(-100%)"
+    document.getElementById("game").style.transform = "translateY(0%)"
+
+    setTimeout(_=>{
+        document.getElementById("player_div").style.transform = "translateX(0%)"
+        document.getElementById("enemy_div").style.transform = "translateX(0%)"
+    },1500)
+}
+
 function loadGame() {
     createGridDices("p_grid")
     createGridDices("e_grid")
 
-    document.getElementById("player_div").style.transform = "translateX(0%)"
-    document.getElementById("enemy_div").style.transform = "translateX(0%)"
+    // start()
 }

@@ -8,15 +8,25 @@
     <link rel="icon" href="images/icon.png">
 
     <script src="js/conclusion.js"></script>
+    <script src="js/other.js"></script>
     <script src="js/cards.js"></script>
     <script src="js/main.js"></script>
 
     <title>Endless Dice</title>
 </head>
 <body onload="loadGame()">
-    <div id="game">
+    <div id="popup_text"></div>
+    <div id="conclusion" class="pos-center"></div>
+    <div id="main_menu">
+        <div class="pos-center" style="width: 100%;">
+            <img src="images/icon.png">
+            <h1>Endless Dice</h1><br><br>
+            <button onclick="setPopup(POPUP.tutorial0())">Start a Round! Let's Roll!</button><br>
+            <span>Minimum window size is 1280x720, recommended size - 1920x1080. If you are not comfortable during game, you may change zoom!</span><br><br>
+            Jam Game made by MrRedShark77!
+        </div>
+    </div><div id="game">
         <div id="round">Round 1</div>
-        <div id="conclusion" class="pos-center"></div>
         <div class="table_center" style="height: 100%;">
             <div style="width: 50%; height: 100%; position: relative;" id="player_div">
                 <h2>You<span id="player_move"></span></h2>

@@ -215,3 +215,48 @@ br {
     transition: transform 2s;
     transform: translateX(-100%);
 }
+
+#main_menu {
+    transition: transform 2s;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#game {
+    transition: transform 2s;
+    transform: translateY(100%);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#main_menu button {
+    padding: 10px 20px;
+}
+
+#main_menu span {
+    font-size: 20px;
+}
+
+.popup_text {
+    position: absolute;
+    animation: text_popup 2s ease-out;
+    transform: translateX(-50%);
+    opacity: 0;
+    z-index: 1;
+}
+
+@keyframes text_popup {
+    0% {
+        opacity: 1;
+        transform: translateY(0) translateX(-50%);
+    }
+    75% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(40px) translateX(-50%);
+    }
+}
