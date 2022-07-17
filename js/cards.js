@@ -158,22 +158,28 @@ const CARDS = {
             data.p_grid = {}
         },
     ],
+    o2: [
+        "Normality",
+        x=>`Normal dice can attack <b class='green'>${['25%',"50%"][x]}</b> of ${['your',"enemy's"][x]} product to ${['an enemy',"you"][x]}`,
+        x=>!data[x].cards.includes("o2"),
+        x=>{},
+    ],
 
     curse1: [
         "Cursed Multiplier",
-        x=>`Multiply your number of side by <b class='green'>2</b>, but divide your multiplier by <b class='red'>2</b>`,
-        x=>x=="player"&&Math.random()<1/4,
+        x=>`Multiply your number of side by <b class='green'>2</b>, but divide your multiplier by <b class='red'>3</b>`,
+        x=>x=="player"&&Math.random()<1/5,
         x=>{
             data[x].min_s *= 2
             data[x].max_s *= 2
 
-            data[x].mult /= 2
+            data[x].mult /= 3
         },
     ],
     curse2: [
         "Cursed Heart",
-        x=>`If you pass a round, will increase your health by <b class='green'>5%</b>, but increase enemy's multiplier by <b class='red'>5%</b> for passing it`,
-        x=>x=="player" && !data[x].cards.includes("curse2") && Math.random()<1/4,
+        x=>`If you pass a round, will increase your health by <b class='green'>10%</b>, but increase enemy's multiplier by <b class='red'>5%</b> for passing it`,
+        x=>x=="player" && !data[x].cards.includes("curse2") && Math.random()<1/5,
         x=>{},
     ],
 }

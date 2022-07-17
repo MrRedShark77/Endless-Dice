@@ -25,10 +25,11 @@
 }
 
 body {
-	overflow-x: hidden;
+	overflow: hidden;
 	margin: 0px;
 	user-select: none;
     font-size: 25px;
+    background-color: white;
 }
 
 button {
@@ -157,6 +158,8 @@ br {
     background-color: #fafad2;
     padding: 5px;
     z-index: 2;
+    transition: top 2s;
+    top: -50%;
 }
 
 .green {
@@ -194,4 +197,21 @@ br {
     border-radius: 0 25px 25px 0;
     border-left-style: dashed !important;
     background-color: #666;
+}
+
+#round {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#enemy_div {
+    transition: transform 2s;
+    transform: translateX(100%);
+}
+
+#player_div {
+    transition: transform 2s;
+    transform: translateX(-100%);
 }

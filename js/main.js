@@ -1,47 +1,51 @@
-var data = {
-    p_grid: {},
-    e_grid: {},
+const newData = _=>{
+    return {
+        p_grid: {},
+        e_grid: {},
 
-    move: "player",
-    enemyReady: false,
-    end: false,
+        move: "player",
+        enemyReady: false,
+        end: false,
 
-    round: 1,
+        round: 1,
 
-    player: {
-        pick: [0,0],
-        pickStep: 0,
-        product: 1,
-        energyCos: 0,
-        health: 100,
-        energy: 10,
-        maxEnergy: 10,
+        player: {
+            pick: [0,0],
+            pickStep: 0,
+            product: 1,
+            energyCos: 0,
+            health: 100,
+            energy: 10,
+            maxEnergy: 10,
 
-        mult: 1,
+            mult: 1,
 
-        min_s: 1,
-        max_s: 6,
+            min_s: 1,
+            max_s: 6,
 
-        cards: [],
-    },
+            cards: [],
+        },
 
-    enemy: {
-        pick: [0,0],
-        product: 1,
-        energyCos: 0,
-        health: 100,
-        maxHealth: 100,
-        energy: 0,
-        maxEnergy: 10,
+        enemy: {
+            pick: [0,0],
+            product: 1,
+            energyCos: 0,
+            health: 100,
+            maxHealth: 100,
+            energy: 0,
+            maxEnergy: 10,
 
-        mult: 1,
+            mult: 1,
 
-        min_s: 1,
-        max_s: 6,
+            min_s: 1,
+            max_s: 6,
 
-        cards: [],
-    },
+            cards: [],
+        },
+    }
 }
+
+var data = newData()
 
 var tmp = {
     av_p_slots: [11,12,13,14,15,21,22,23,24,25,31,32,33,34,35,41,42,43,44,45],
@@ -71,18 +75,25 @@ function shuffle(array) {
 
 function nextRound() {
     data.round++
-    data.enemy.maxHealth = Math.floor(data.enemy.maxHealth*(data.round>20?1.5:1.2))
+    data.enemy.maxHealth = Math.floor(data.enemy.maxHealth*(data.round>20?1.4:1.2))
+    data.enemy.mult += data.round>20?1:0.25
     data.enemy.health = data.enemy.maxHealth
     data.e_grid = {}
+
+    if (data.player.cards.includes("curse2")) {
+        data.player.health = Math.floor(data.player.health*1.1)
+        data.enemy.mult *= 1.05
+    }
     
     resetTwo("player")
     resetTwo("enemy")
 
     data.move = "player"
 
-    document.getElementById("win_div").style.display = "none"
+    document.getElementById("conclusion").style.top = "-50%"
     data.end = false
 
+    document.getElementById("enemy_div").style.transform = "translateX(0%)"
     updateHTML()
     updateAvSlots("p_grid")
     updateAvSlots("e_grid")
@@ -91,6 +102,8 @@ function nextRound() {
 }
 
 function chooseCard(p,e) {
+    if (!data.end) return
+
     data.player.cards.push(p)
     data.enemy.cards.push(e)
 
@@ -134,7 +147,7 @@ function generateRandomCards() {
 function pickDice(pos) {
     let g = data.p_grid[pos]
 
-    if (!g || data.player.pick.includes(pos) || data.player.pickStep > 1 || data.end) return
+    if (!g || data.player.pick.includes(pos) || data.player.pickStep > 1 || data.end || data.move != "player") return
 
     data.player.pick[data.player.pickStep] = pos
     data.player.energyCos += g.energy
@@ -166,6 +179,7 @@ function makeMove(move="player") {
 
             if (dice.type == "attack") od.health = Math.max(od.health-p,0)
             else if (dice.type == "heal") d.health += p
+            else if (d.cards.includes("o2") && dice.type == "normal") od.health = Math.max(od.health-Math.ceil(move=="player"?p/4:p/2),0)
         }
 
         if (dices[0].type == dices[1].type) {
@@ -223,20 +237,39 @@ function resetTwo(id) {
 }
 
 function conclusion() {
-    var c = document.getElementById("conclusion")
-
     if (data.player.health <= 0) {
-        c.innerHTML = "You lose!"
+        setPopup(POPUP.lose())
+        document.getElementById("player_div").style.transform = "translateX(-100%)"
     } else if (data.enemy.health <= 0) {
+        setPopup(POPUP.win())
         generateRandomCards()
-        document.getElementById("win_div").style.display = "block"
+        document.getElementById("enemy_div").style.transform = "translateX(100%)"
     }
 
     updateHTML()
 }
 
 function updateHTML() {
-    document.getElementById("conclusion").style.display = data.end ? "block" : "none"
+    document.getElementById("round").innerHTML = "Round "+data.round
+}
+
+function tryAgain() {
+    if (!data.end) return
+
+    document.getElementById("conclusion").style.top = "-50%"
+    document.getElementById("enemy_div").style.transform = "translateX(100%)"
+
+    setTimeout(_=>{
+        data = newData()
+
+        document.getElementById("player_div").style.transform = "translateX(0%)"
+        document.getElementById("enemy_div").style.transform = "translateX(0%)"
+        updateHTML()
+        updateAvSlots("p_grid")
+        updateAvSlots("e_grid")
+        updateGridDices("p_grid")
+        updateGridDices("e_grid")
+    },2000)
 }
 
 function autoEnemyMove() {
@@ -406,4 +439,7 @@ function format(x) {
 function loadGame() {
     createGridDices("p_grid")
     createGridDices("e_grid")
+
+    document.getElementById("player_div").style.transform = "translateX(0%)"
+    document.getElementById("enemy_div").style.transform = "translateX(0%)"
 }

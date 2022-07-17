@@ -6,6 +6,7 @@
 
     <link rel="stylesheet" href="style.css">
 
+    <script src="js/conclusion.js"></script>
     <script src="js/cards.js"></script>
     <script src="js/main.js"></script>
 
@@ -13,19 +14,10 @@
 </head>
 <body onload="loadGame()">
     <div id="game">
-        <div id="conclusion" class="pos-center" style="display: none;">
-            <div id="win_div">
-                <h2>You won this Round!</h2>
-                You can now only pick <b>ONE</b> of the following cards:<br>
-                <div id="pick_cards">
-                    
-                </div>
-            </div><div id="lose_div">
-
-            </div>
-        </div>
+        <div id="round">Round 1</div>
+        <div id="conclusion" class="pos-center"></div>
         <div class="table_center" style="height: 100%;">
-            <div style="width: 50%; height: 100%; position: relative;">
+            <div style="width: 50%; height: 100%; position: relative;" id="player_div">
                 <h2>You<span id="player_move"></span></h2>
                 <span id="player_health" style="color: lightcoral;"></span>
                 <div class="pos-center">
@@ -44,10 +36,9 @@
                     </div>
                 </div><div class="pos-bottom" style="bottom: 20px; width: 100%;">
                     <button id="player_proccess" onclick='makeMove()'></button>
-                    <button id="player_clear" onclick='clearPick()'>Clear picking Dices</button><br>
-                    <button id="player_pass" onclick='pass()'>Pass to Enemy</button>
+                    <button id="player_clear" onclick='clearPick()'>Clear picking Dices</button>
                 </div>
-            </div><div style="width: 50%; height: 100%; position: relative;">
+            </div><div style="width: 50%; height: 100%; position: relative;" id="enemy_div">
                 <h2>Enemy<span id="enemy_move"></span></h2>
                 <span id="enemy_health" style="color: lightcoral;"></span>
                 <div class="pos-center">
@@ -64,6 +55,8 @@
                         <div style="width: 50px;">=</div>
                         <div id="enemy_result"></div>
                     </div>
+                </div><div class="pos-bottom" style="bottom: 20px; width: 100%;">
+                    <button id="player_pass" onclick='pass()'>Pass to Enemy</button>
                 </div>
             </div>
         </div>
