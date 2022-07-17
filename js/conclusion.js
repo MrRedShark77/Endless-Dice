@@ -24,7 +24,7 @@ const POPUP = {
 
     <span style="font-size: 20px">
     1) Click a <b>"Roll"</b> button to spawn random Dice (cost with 1 Energy)<br>
-    2) Pick any <b>two</b> of following Dices that applies effect to Enemy:<br>
+    2) Pick (Click) any <b>two</b> of following Dices that applies effect to Enemy:<br>
     2.1) Gray Dice is called <b>"Normal Dice"</b>.<br>
     2.2) Red Dice is called <b>"Attack Dice"</b>, which attacks the enemy by result.<br>
     2.3) Green Dice is called <b>"Heal Dice"</b>, which heals you by result.<br>
