@@ -49,6 +49,12 @@ const CARDS = {
             data[x].max_s += 2
         },
     ],
+    d7: [
+        "Scrambler",
+        x=>`${['Your',"Enemy's"][x]} spawned Dice has 10% chance to transform into <b class='green'>Dice Scrambler</b>`,
+        x=>!data[x].cards.includes("d7"),
+        x=>{},
+    ],
 
     s1: [
         "Sacrifice for Multiplier",
@@ -181,5 +187,14 @@ const CARDS = {
         x=>`If you pass a round, will increase your health by <b class='green'>10%</b>, but increase enemy's multiplier by <b class='red'>5%</b> for passing it`,
         x=>x=="player" && !data[x].cards.includes("curse2") && Math.random()<1/5,
         x=>{},
+    ],
+
+    c1: [
+        "Critical Chance",
+        x=>`Increase ${['your',"enemy's"][x]} critical chance by <b class='green'>5%</b>`,
+        x=>data[x].crit<0.5,
+        x=>{
+            data[x].crit += 0.05
+        },
     ],
 }

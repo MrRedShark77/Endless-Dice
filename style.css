@@ -103,6 +103,10 @@ br {
     transition-duration: 0.2s;
 }
 
+.grid-dice > div,.picked_dice > div {
+    font-weight: bold;
+}
+
 .grid-dice.picked {
     transform: scale(1.15);
 }
@@ -135,7 +139,7 @@ br {
 .picked_dice.normal,
 .grid-dice.normal {
     border-style: solid;
-    border-color: #444444;
+    border-color: #444;
     background-color: #aaa;
 }
 
@@ -151,6 +155,13 @@ br {
     border-style: solid;
     border-color: #004400;
     background-color: #0a0;
+}
+
+.picked_dice.scrambler,
+.grid-dice.scrambler {
+    border-style: solid;
+    border-color: #004;
+    background-color: #00c;
 }
 
 #conclusion {
@@ -258,5 +269,19 @@ br {
     100% {
         opacity: 0;
         transform: translateY(40px) translateX(-50%);
+    }
+}
+
+@keyframes text_popup_up {
+    0% {
+        opacity: 1;
+        transform: translateY(0) translateX(-50%);
+    }
+    75% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-40px) translateX(-50%);
     }
 }

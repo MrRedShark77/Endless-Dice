@@ -19,6 +19,7 @@ const newData = _=>{
             maxEnergy: 10,
 
             mult: 1,
+            crit: 0.15,
 
             min_s: 1,
             max_s: 6,
@@ -36,6 +37,7 @@ const newData = _=>{
             maxEnergy: 10,
 
             mult: 1,
+            crit: 0.15,
 
             min_s: 1,
             max_s: 6,
@@ -113,6 +115,27 @@ function chooseCard(p,e) {
     nextRound()
 }
 
+function scrambleDice(grid) {
+    for (let y = 1; y <= 4; y++) for (let x = 1; x <= 5; x++) {
+        var id = y*10+x
+        var g = data[grid][id]
+
+        if (g !== undefined) if (g.type == "scrambler") for (let yy = -1; yy <= 1; yy++) for (let xx = -1; xx <= 1; xx++) {
+            var yyy = y+yy, xxx = x+xx
+            if (!(yy == 0 && xx == 0) && yyy > 0 && yyy < 5 && xxx > 0 && xxx < 6) {
+                var gg = data[grid][yyy*10+xxx]
+                var gd = document.getElementById(grid+"_"+id).getBoundingClientRect()
+                createTextPopupParticle("Scrambled!",gd.x+gd.width/2,gd.y+gd.height/2,true)
+                if (gg !== undefined) if (gg.type !== "scrambler") {
+                    var tp = Math.floor(Math.random()*3)
+                    gg.type = ["normal","attack","heal"][tp]
+                    gg.energy = [1,2,2][tp]
+                }
+            }
+        }
+    }
+}
+
 function generateRandomCards() {
     var t = ["player","enemy"]
     var ac = [[],[]]
@@ -182,7 +205,7 @@ function makeMove(move="player") {
 
         var p = Math.floor(d.product*d.mult)
         var dmg = 0, heal = 0, crit = ""
-        if (Math.random() < .15) {
+        if (Math.random() < d.crit) {
             crit = "Critical! "
             p *= 2
         }
@@ -249,6 +272,8 @@ function pass() {
     if (data.move == "player" && !data.end) {
         data.move = "enemy"
         data.enemy.energy = data.enemy.maxEnergy
+
+        scrambleDice("e_grid")
 
         resetOne("player")
 
@@ -354,6 +379,8 @@ function autoEnemyMove() {
         } else {
             data.move = "player"
             data.player.energy = data.player.maxEnergy
+
+            scrambleDice("p_grid")
     
             resetOne("enemy")
     
@@ -466,6 +493,11 @@ function spawnRandomDice(id,update=false) {
     var tp = Math.floor(Math.random()*3)
 
     grid[pos] = {pos: pos, value: randomInt(d.min_s,d.max_s), type: ["normal","attack","heal"][tp], energy: [1,2,2][tp]}
+
+    if (d.cards.includes('d7') && Math.random() < .1) { // 
+        grid[pos].type = "scrambler"
+        grid[pos].energy = 2
+    }
 
     updateAvSlots(id)
     if (update) updateGridDices(id)
