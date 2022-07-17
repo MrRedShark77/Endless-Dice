@@ -1,0 +1,72 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="js/cards.js"></script>
+    <script src="js/main.js"></script>
+
+    <title>Endless Dice</title>
+</head>
+<body onload="loadGame()">
+    <div id="game">
+        <div id="conclusion" class="pos-center" style="display: none;">
+            <div id="win_div">
+                <h2>You won this Round!</h2>
+                You can now only pick <b>ONE</b> of the following cards:<br>
+                <div id="pick_cards">
+                    
+                </div>
+            </div><div id="lose_div">
+
+            </div>
+        </div>
+        <div class="table_center" style="height: 100%;">
+            <div style="width: 50%; height: 100%; position: relative;">
+                <h2>You<span id="player_move"></span></h2>
+                <span id="player_health" style="color: lightcoral;"></span>
+                <div class="pos-center">
+                    Energy <span id="player_energy"></span> <button onclick='spawnCost("p_grid")'>Roll, 1 Energy Cost</button>
+                    <div class="grid" id="p_grid">
+                        
+                    </div>
+                    <div class="table_center" style="align-items: center;">
+                        <div class="picked_dice" id="p_dice0"></div>
+                        <div style="width: 50px;">x</div>
+                        <div class="picked_dice" id="p_dice1"></div>
+                        <div style="width: 50px;">x</div>
+                        <div id="player_mult"></div>
+                        <div style="width: 50px;">=</div>
+                        <div id="player_result"></div>
+                    </div>
+                </div><div class="pos-bottom" style="bottom: 20px; width: 100%;">
+                    <button id="player_proccess" onclick='makeMove()'></button>
+                    <button id="player_clear" onclick='clearPick()'>Clear picking Dices</button><br>
+                    <button id="player_pass" onclick='pass()'>Pass to Enemy</button>
+                </div>
+            </div><div style="width: 50%; height: 100%; position: relative;">
+                <h2>Enemy<span id="enemy_move"></span></h2>
+                <span id="enemy_health" style="color: lightcoral;"></span>
+                <div class="pos-center">
+                    Energy <span id="enemy_energy"></span>
+                    <div class="grid" id="e_grid">
+                        
+                    </div>
+                    <div class="table_center" style="align-items: center;">
+                        <div class="picked_dice" id="e_dice0"></div>
+                        <div style="width: 50px;">x</div>
+                        <div class="picked_dice" id="e_dice1"></div>
+                        <div style="width: 50px;">x</div>
+                        <div id="enemy_mult"></div>
+                        <div style="width: 50px;">=</div>
+                        <div id="enemy_result"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
