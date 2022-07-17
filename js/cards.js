@@ -181,13 +181,13 @@ const CARDS = {
 
     curse1: [
         "Cursed Multiplier",
-        x=>`Multiply your number of side by <b class='green'>2</b>, but divide your multiplier by <b class='red'>3</b>`,
+        x=>`Multiply your number of side by <b class='green'>2</b>, but divide your multiplier by <b class='red'>4</b>`,
         x=>x=="player"&&Math.random()<1/5,
         x=>{
             data[x].min_s *= 2
             data[x].max_s *= 2
 
-            data[x].mult /= 3
+            data[x].mult /= 4
         },
     ],
     curse2: [

@@ -98,6 +98,11 @@ function nextRound() {
         pass()
     }
 
+    if (data.round > 20) {
+        data.enemy.min_s += 1
+        data.enemy.max_s += randomInt(1,3)
+    }
+
     document.getElementById("conclusion").style.top = "-50%"
 
     document.getElementById("enemy_div").style.transform = "translateX(0%)"
@@ -208,13 +213,13 @@ function makeMove(move="player") {
 
         if (d.cards.includes("e3") && Math.random() < .2) d.energy += 2
 
+        var dices = [g[d.pick[0]],g[d.pick[1]]]
         var p = Math.floor(d.product*d.mult)
-        var dmg = 0, heal = 0, crit = ""
+        var dmg = 0, heal = 0, crit = "", s = [dices[0].type,dices[1].type].includes("scrambler")?3:1
         if (Math.random() < d.crit) {
             crit = "Critical! "
             p *= 2
         }
-        var dices = [g[d.pick[0]],g[d.pick[1]]]
 
         g[d.pick[0]] = undefined
         g[d.pick[1]] = undefined
@@ -236,15 +241,14 @@ function makeMove(move="player") {
             }
         }
 
-        if (dices[0].type == dices[1].type) {
-            var dice = dices[0]
-            if (dice.type == "attack") {
-                od.health = Math.max(od.health-p,0)
-                dmg += p
+        if (dices[0].type == dices[1].type || ([dices[0].type,dices[1].type].includes("scrambler") && ![dices[0].type,dices[1].type].includes("normal"))) {
+            if (dices[0].type == "attack" || dices[1].type == "attack") {
+                od.health = Math.max(od.health-p*s,0)
+                dmg += p*s
             }
-            else if (dice.type == "heal") {
-                d.health += p
-                heal += p
+            else if (dices[0].type == "heal" || dices[1].type == "heal") {
+                d.health += p*s
+                heal += p*s
             }
         }
         
