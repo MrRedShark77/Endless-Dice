@@ -78,7 +78,7 @@ const CARDS = {
     e1: [
         "Energy Increaser",
         x=>`Increase ${['your',"enemy's"][x]} maximum energy by <b class='green'>3</b>`,
-        x=>true,
+        x=>data[x].maxEnergy<25,
         x=>{
             data[x].maxEnergy += 3
         },
@@ -86,7 +86,7 @@ const CARDS = {
     e2: [
         "Energy Increaser",
         x=>`Increase ${['your',"enemy's"][x]} maximum energy by <b class='green'>5</b>`,
-        x=>true,
+        x=>data[x].maxEnergy<25,
         x=>{
             data[x].maxEnergy += 5
         },

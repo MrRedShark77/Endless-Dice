@@ -92,8 +92,13 @@ function nextRound() {
 
     data.move = "player"
 
-    document.getElementById("conclusion").style.top = "-50%"
     data.end = false
+
+    if (Math.random() < 0.15) {
+        pass()
+    }
+
+    document.getElementById("conclusion").style.top = "-50%"
 
     document.getElementById("enemy_div").style.transform = "translateX(0%)"
     updateHTML()
