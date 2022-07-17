@@ -94,7 +94,7 @@ function nextRound() {
 
     data.end = false
 
-    if (Math.random() < 0.25 && data.round > 10) {
+    if (Math.random() < (data.round > 20 ? 0.3 : 0.2) && data.round > 10) {
         pass()
     }
 
