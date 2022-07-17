@@ -9,9 +9,19 @@ const POPUP = {
     You lost Round ${data.round}!<br>
     <button onclick="tryAgain()">Try again</button>
     `,
+    passConfirm: _=>`
+    Are you sure you want to pass to enemy with unspent energy?<br>
+    <button onclick="removePopup();pass()">I'm sure!</button><button onclick="removePopup()">No</button>
+    `,
 }
 
 function setPopup(txt) {
     document.getElementById("conclusion").innerHTML = txt
     document.getElementById("conclusion").style.top = "50%"
+}
+
+function removePopup() {
+    if (document.getElementById("conclusion").style.top == "50%") {
+        document.getElementById("conclusion").style.top = "-50%"
+    }
 }

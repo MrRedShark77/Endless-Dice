@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="images/icon.png">
 
     <script src="js/conclusion.js"></script>
     <script src="js/cards.js"></script>
@@ -56,7 +57,7 @@
                         <div id="enemy_result"></div>
                     </div>
                 </div><div class="pos-bottom" style="bottom: 20px; width: 100%;">
-                    <button id="player_pass" onclick='pass()'>Pass to Enemy</button>
+                    <button id="player_pass" onclick='if (data.player.energy > 0) setPopup(POPUP.passConfirm()); else pass()'>Pass to Enemy</button><button onclick='clearCost()'>Clear your grid, 3 Energy Cost</button>
                 </div>
             </div>
         </div>

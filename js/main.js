@@ -144,6 +144,16 @@ function generateRandomCards() {
     }
 }
 
+function clearCost() {
+    if (tmp.av_p_slots.length < 20 && data.player.energy >= 3 && data.move == "player") {
+        data.player.energy -= 3
+
+        data.p_grid = {}
+        updateAvSlots("p_grid")
+        updateGridDices("p_grid")
+    }
+}
+
 function pickDice(pos) {
     let g = data.p_grid[pos]
 
